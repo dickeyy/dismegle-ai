@@ -4,7 +4,7 @@ This model is designed to read chat logs and analyze them to detect if anything 
 
 The initial state that it is in right now is basically a fancy regex system, however eventually we hope to make it capable of making reliable automated moderation decisions to off-load work from moderators.
 
-An example of the data model can be seen in `dataModel.json`. We found this allowed our ai to train quickly and with minimal error rates. It works by analyzing a number of messages that break a specific rule, these are our input and output values. See below...
+An example of the data model can be seen in [`dataModel.json`](https://github.com/dickeyy/dismegle-ai/blob/main/filter-logs/dataModel.json). We found this allowed our ai to train quickly and with minimal error rates. It works by analyzing a number of messages that break a specific rule, these are our input and output values. See below...
 
 ```json
 [
