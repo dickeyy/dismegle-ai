@@ -29,7 +29,7 @@ net.train(data, {
 })
 ```
 
-From there we can save the network to a JSON file to ensure the model is persistent. After that, we can load the model from JSON anyhwere we want
+From there we can save the network to a JSON file to ensure the model is persistent. After that, we can load the model from JSON anyhwere we want.
 
 ```js
 const net = new brain.recurrent.LSTM();
