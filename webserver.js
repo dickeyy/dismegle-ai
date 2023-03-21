@@ -20,6 +20,7 @@ app.post('/predict', (req, res) => {
 
     // get the prediction
     const prediction = net.run(log);
+    console.log(prediction);
     
     // send the prediction back to the client
     res.status(200).send({
