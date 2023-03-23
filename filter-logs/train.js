@@ -16,44 +16,21 @@ const { log } = require('./utils/log');
 let trainingData = [];
 
 // get training data from db
-db.collection('filter_logs').find({ input: {$ne: null }, output: {$ne: null} }).toArray().then((data) => {
+db.collection('filter_logs_v2').find({ input: {$ne: null }, output: {$ne: "None"} }).toArray().then((data) => {
 
-    
-    // loop through data
-    data.forEach((item) => {
-        // remove the _id field
-        delete item._id;
-        // remove the users array
-        delete item.users;
-        // remove teh message_id field
-        delete item.message_id;
-
-        // remove any items that have an output of "None"
-        if (item.output === 'None') {
-            return;
-        }
-        // remove any items that have an output of ""
-        if (item.output === '') {
-            return;
-        }
-
-        // add the item to the training data array
-        trainingData.push(item);
-    });
-
-    console.log('chats:', trainingData.length);
-    log('info', 'chats: ' + trainingData.length);
+    console.log('data points:', data.length);
+    log('info', 'data points: ' + data.length);
 
     // split the array into chunks 
-    const chunks = [];
-    let i, j, temparray, chunk = 10;
-    for (i = 0, j = trainingData.length; i < j; i += chunk) {
-        temparray = trainingData.slice(i, i + chunk);
-        chunks.push(temparray);
-    }
+    // const chunks = [];
+    // let i, j, temparray, chunk = data.length;
+    // for (i = 0, j = trainingData.length; i < j; i += chunk) {
+    //     temparray = trainingData.slice(i, i + chunk);
+    //     chunks.push(temparray);
+    // }
 
-    console.log('chunks:', chunks.length + '\n');
-    log('info', 'chunks: ' + chunks.length);
+    // console.log('chunks:', chunks.length + '\n');
+    // log('info', 'chunks: ' + chunks.length);
 
     // wait 5 seconds
     setTimeout(() => {
@@ -61,52 +38,37 @@ db.collection('filter_logs').find({ input: {$ne: null }, output: {$ne: null} }).
         // create a new neural network
         const net = new brain.recurrent.LSTM()
 
-        // start a timer to track how long it takes to train the neural network
-        console.time('training time');
-
         // train the neural network
         console.log('training neural network...\n');
         log('info', 'training neural network...');
 
         // batch the neural network training, do it for each chunk
-        chunks.forEach((chunk) => {
+        // chunks.forEach((chunk) => {
 
             // log which number chunk we are on out of the total number of chunks
-            console.log('\n')
-            console.log('chunk:', chunks.indexOf(chunk) + 1, '/', chunks.length);
-            log('info', 'chunk: ' + (chunks.indexOf(chunk) + 1) + '/' + chunks.length);
 
-            console.time('chunk train time');
+        console.time('chunk train time');
 
-            // train the neural network
-            net.train(chunk, {
-                iterations: 200,
-                errorThresh: 0.01,
-                log: true,
-                logPeriod: 10,
-                learningRate: 0.5,
-                momentum: 0.3,
-            })
-
-            console.log('\n')
-            console.timeEnd('chunk train time');
-            log('info', 'chunk train time: ' + console.timeEnd('chunk train time'));
-
+        // train the neural network
+        net.train(data, {
+            iterations: 500,
+            errorThresh: 0.01,
+            log: true,
+            logPeriod: 1,
         })
+
+        console.log('\n')
+        console.timeEnd('chunk train time');
+        log('info', 'chunk train time: ' + console.timeEnd('chunk train time'));
+
+        // })
 
         // then save the neural network to a file
         console.log('saving neural network to file...');
         log('info', 'saving neural network to file...');
 
         // save the neural network to a file
-        fs.writeFileSync('./models/network-only-punish.json', JSON.stringify(net.toJSON()));
-
-        // stop the timer
-        console.log('\n')
-        console.log('Training Complete');
-        console.timeEnd('training time');
-        log('info', 'training time: ' + console.timeEnd('training time'));
-        console.log('\n')
+        fs.writeFileSync('./models/network-v6.json', JSON.stringify(net.toJSON()));
     
     }, 5000);
 

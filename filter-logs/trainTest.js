@@ -5,7 +5,7 @@ const brain = require('brain.js');
 const fs = require('fs');
 
 // import dataModel.json
-const data = require('./dataModel.json');
+const data = require('./newData.json');
 
 // create a new neural network
 const net = new brain.recurrent.LSTM()
@@ -20,7 +20,7 @@ console.log('training neural network...\n');
 net.train(data, {
     errorThresh: 0.01,
     log: true,
-    logPeriod: 10,
+    logPeriod: 1,
     iterations: 200
 })
 
@@ -28,7 +28,7 @@ net.train(data, {
 console.log('saving neural network to file...');
 
 // save the neural network to a file
-fs.writeFileSync('./models/network-test.json', JSON.stringify(net.toJSON()));
+fs.writeFileSync('./models/network-new.json', JSON.stringify(net.toJSON()));
 
 // stop the timer
 console.log('\n')

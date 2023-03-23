@@ -1,8 +1,5 @@
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
-// Dotenv initialize 
-dotenv.config();
 
 // Process errors
 process.on('uncaughtException', async function (error) {

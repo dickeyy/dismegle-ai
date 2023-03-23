@@ -5,7 +5,7 @@
   "main": "webserver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "train": "pm2 start train.js --name ai-training-only-punish -o ./logs/combined.log -e ./logs/error.log"
+    "train": "pm2 start train.js --name ai-training -o ./logs/combined.log -e ./logs/error.log"
   },
   "keywords": [],
   "author": "",
