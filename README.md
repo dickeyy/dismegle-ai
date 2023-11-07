@@ -1,3 +1,3 @@
 # Dismegle AI
 
-A series of AI models was developed to perform a number of automation on [Dismgele](discord.gg/dismegle)
+A series of AI models were developed to perform a number of automation on [Dismegle](discord.gg/dismegle)
